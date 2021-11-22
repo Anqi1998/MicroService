@@ -1,1 +1,33 @@
 #常见问题
+①Ubuntu18.04安装protobuf
+1.  git clone https://github.com/protocolbuffers/protobuf.git
+2.  sudo apt-get install autoconf automake libtool curl make g++ unzip libffidev -y
+3.  cd protobuf/
+4.  ./autogen.sh
+5.  ./configure
+6.  make
+7.  sudo make install
+8.  sudo ldconfig(刷新库，必不可少)
+9.  protoc -h(测试是否安装成功)
+
+安装完后配置go编译环境
+1.  获取proto包
+    go get -v -u github.com/golang/protobuf/proto  //如果连接超时，可以直接去github下载zip包然后解压，网址github.com/golang/protobuf
+2.  安装protoc-gen-go插件
+    go get -v -u github.com/golang/protobuf/protoc-gen-go
+3.  编译
+    cd $GOPATH/src/github.com/golang/protobuf/protoc-gen-go/
+    go build
+    sudo cp protoc-gen-go /bin/
+    
+    
+②protobuf导出问题
+protoc导出时遇到protoc-gen-go unable to determine Go import path解决方法
+在.proto文件添加一行代码
+option go_package ="../proto1";  //proto1为脚本文件所在文件夹
+
+③proto 编译命令
+编译go语言文件
+protoc --go_out=./  *.proto
+
+
